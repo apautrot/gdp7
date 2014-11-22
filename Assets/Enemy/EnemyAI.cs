@@ -16,6 +16,11 @@ public class EnemyAI : MonoBehaviour {
 
 	public float life = 10.0f;
 
+	public float stunDuration = 10f;
+	public float avoidDuration = 5f;
+	public float timeStun;
+	public float timeAvoid;
+
 	public Vector3 velocity = Vector3.zero;
 
 	// Use this for initialization
@@ -26,7 +31,8 @@ public class EnemyAI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (player != null && reineMere != null) {				
+		if (player != null && reineMere != null) {	
+
 			Vector3 positionPlayer = player.transform.position;
 			Vector3 directionPlayer = positionPlayer - this.transform.position;
 			float distancePlayer = directionPlayer.magnitude;
@@ -35,10 +41,27 @@ public class EnemyAI : MonoBehaviour {
 			Vector3 directionReineMere = positionReineMere - this.transform.position;
 			float distanceReineMere = directionReineMere.magnitude;
 
-
-			if(distancePlayer < distanceDetection && distancePlayer > distanceMinPlayer){
-				goCloserTo(positionPlayer);
+			if(timeStun > 0 || timeAvoid > 0){
+				//the enemy was hit and he is confused
+				if(timeAvoid > 0){ // == (stunDuration + avoidDuration) - avoidDuration
+					//first go away from the player
+					goAwayFrom(positionPlayer);
+					timeAvoid -= Time.deltaTime;
+					if(timeAvoid < 0)
+						timeAvoid = 0;
+				}
+				else{ //just idle
+				timeStun -= Time.deltaTime;
+				if(timeStun < 0)
+					timeStun = 0;
+				}
+			}
+			else{
+				//attaque le joueur
+				if(distancePlayer < distanceDetection && distancePlayer > distanceMinPlayer){
+					goCloserTo(positionPlayer);
 				
+				}
 			}
 			if(distanceReineMere < distanceMinMere){
 				goAwayFrom(positionReineMere);
@@ -85,11 +108,13 @@ public class EnemyAI : MonoBehaviour {
 		velocity.y = 0;
 	}
 
-	internal void OnHitByPlayer ( float value )
+	internal void OnHitByPlayer ( float value, float hitFactor )
 	{
 		Debug.Log ( "Enemy " + name + " hitted by " +  value );
 		life -= value;
 		updateEnemyState ();
+		timeStun = stunDuration * hitFactor;
+		timeAvoid = avoidDuration * hitFactor;
 	}
 
 	internal void updateEnemyState()
@@ -99,4 +124,6 @@ public class EnemyAI : MonoBehaviour {
 			this.gameObject.DestroySelf();
 		}
 	}
+
+
 }

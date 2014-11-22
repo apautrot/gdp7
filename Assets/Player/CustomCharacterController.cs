@@ -149,7 +149,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 				float distance = ( collider2DPosition - attack2DPosition ).magnitude;
 				float maxDistance = attackRadius + ( collider as CapsuleCollider ).radius;
 				float hitFactor = 1 - ( distance / maxDistance );
-				collider.gameObject.GetComponent<EnemyAI>().OnHitByPlayer ( hitFactor * attackIntensity );
+				collider.gameObject.GetComponent<EnemyAI>().OnHitByPlayer ( hitFactor * attackIntensity, hitFactor );
 			}
 		}
 	}

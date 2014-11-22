@@ -40,7 +40,7 @@ public class ValueBonus : MonoBehaviour {
 	public float consumeEnergy ()
 	{
 		if (value > 0) {
-			GameObject.Destroy (this.gameObject);
+			this.gameObject.DestroySelf();
 		}
 		return value;
 	}
