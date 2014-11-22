@@ -7,11 +7,11 @@ public class EnemyAI : MonoBehaviour {
 	public GameObject reineMere;
 
 	public float distanceDetection = 12f;
-	public float distanceMinMere =6f;
+	public float distanceMinMere = 5f;
 	public float distanceMinPlayer = 1.5f;
 
-	public float topSpeed =10f;
-	public float accelerationFactor = 22f;
+	public float topSpeed =3.25f;
+	public float accelerationFactor = 10f;
 	public float frictionFactor = 0.2f;
 
 	public Vector3 velocity = Vector3.zero;
@@ -41,12 +41,6 @@ public class EnemyAI : MonoBehaviour {
 				goAwayFrom(positionReineMere);
 
 			}
-
-
-
-			  
-
-
 		}
 	
 	}
@@ -84,5 +78,7 @@ public class EnemyAI : MonoBehaviour {
 		
 		if (velocity.magnitude > topSpeed)
 			velocity = velocity.normalized * topSpeed;
+
+		velocity.y = 0;
 	}
 }
