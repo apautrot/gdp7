@@ -4,20 +4,21 @@ using System.Collections;
 public class CustomCharacterController : MonoBehaviour {
 
 	public float topSpeed = 50f;
+	public float pushingTopSpeed = 2f;
 	public float accelerationFactor = 10;
 	public float frictionFactor = 0.25f;
 	public Vector3 velocity = Vector3.zero;
 	public Vector3 Axis = Vector3.zero;
+	public bool isPushing = false;
 
 	public Vector3 cameraOffset = Vector3.zero;
-
 
 	// Use this for initialization
 	void Start ()
 	{
 		cameraOffset = gameObject.transform.position - Camera.main.transform.position;
 	}
-	
+
 	// Update is called once per frame
 	void FixedUpdate ()
 	{
@@ -36,19 +37,30 @@ public class CustomCharacterController : MonoBehaviour {
 
 		velocity *= frictionFactor;
 
-		if (velocity.magnitude > topSpeed)
-		{
-			velocity = velocity.normalized * topSpeed;
+		if (isPushing) {
+			if (velocity.magnitude > pushingTopSpeed)
+				velocity = velocity.normalized * pushingTopSpeed;
+		} else {
+			if (velocity.magnitude > topSpeed)
+				velocity = velocity.normalized * topSpeed;
 		}
 
 		transform.position += ( velocity * Time.fixedDeltaTime );
-
+		
 		//Move the camera according the player position
 		float cameraPosX = gameObject.transform.position.x - cameraOffset.x;
 		float cameraPosZ = gameObject.transform.position.z - cameraOffset.z;
-
+		
 		Camera.main.transform.position = new Vector3(cameraPosX, Camera.main.transform.position.y ,cameraPosZ);
 		
 		gameObject.transform.LookAt( gameObject.transform.position + velocity, Vector3.up);
+	}
+
+	public void setPushing(){
+		isPushing = true;
+	}
+
+	public void finishPushing(){
+		isPushing = false;
 	}
 }
