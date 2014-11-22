@@ -9,7 +9,7 @@ public class ValueBonus : MonoBehaviour {
 	public float distanceMin = 10f;
 	public float value;
 
-	public GameObject light;
+	public GameObject glowLight;
 
 	// Use this for initialization
 	void Start () {
@@ -29,14 +29,19 @@ public class ValueBonus : MonoBehaviour {
 			}
 		}
 
-		if (light != null) {
-			Light l = light.GetComponent<Light>();
+		if (glowLight != null) {
+			Light l = glowLight.GetComponent<Light>();
 			l.intensity = value /2f;
 		}
 
 	}
 
-	public float getValue(){
+
+	public float consumeEnergy ()
+	{
+		if (value > 0) {
+			GameObject.Destroy (this.gameObject);
+		}
 		return value;
 	}
 }

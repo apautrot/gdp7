@@ -150,4 +150,13 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	public float getEnergie(){
 		return this.energie;
 	}
+
+	private void OnTriggerEnter(Collider col){
+		//Debug.Log("collide with : " + col.name);
+		if (col.tag == "Energy") {
+			if(energie < 100f){
+				this.energie += col.gameObject.GetComponent<ValueBonus>().consumeEnergy();
+			}
+		}
+	}
 }
