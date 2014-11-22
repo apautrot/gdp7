@@ -14,7 +14,11 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 
 	public Vector3 cameraOffset = Vector3.zero;
 	public GameObject weapon;
-	
+
+	public float attackDistance = 1;
+	public float attackRadius = 1;
+	public float attackIntensity = 5;
+
 	private bool keyAttack = false;
 	private bool isAttacking = false;
 
@@ -117,6 +121,24 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 			this.weapon.transform.localEulerAngles = Vector3.zero;
 			isAttacking = false;
 		});
+
+		Vector3 attackPosition = new Vector3 ( 0, 0, attackDistance );
+		Vector3 absolutedAttackPosition = transform.TransformPoint ( attackPosition );
+		Collider[] colliders = Physics.OverlapSphere ( absolutedAttackPosition, attackRadius );
+		// Debug.DrawLine (absolutedAttackPosition, transform.position);
+
+		foreach ( Collider collider in colliders )
+		{
+			if ( collider.tag == "Enemy" )
+			{
+				Vector3 collider2DPosition = collider.transform.position; collider2DPosition.y = 0;
+				Vector3 attack2DPosition = absolutedAttackPosition; attack2DPosition.y = 0;
+				float distance = ( collider2DPosition - attack2DPosition ).magnitude;
+				float maxDistance = attackRadius + ( collider as CapsuleCollider ).radius;
+				float hitFactor = 1 - ( distance / maxDistance );
+				collider.gameObject.GetComponent<EnemyAI>().OnHitByPlayer ( hitFactor * attackIntensity );
+			}
+		}
 	}
 
 	public void consumeEnergie(float amount){

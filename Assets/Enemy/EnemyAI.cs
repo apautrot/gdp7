@@ -14,6 +14,8 @@ public class EnemyAI : MonoBehaviour {
 	public float accelerationFactor = 10f;
 	public float frictionFactor = 0.2f;
 
+	public float life = 10.0f;
+
 	public Vector3 velocity = Vector3.zero;
 
 	// Use this for initialization
@@ -81,5 +83,20 @@ public class EnemyAI : MonoBehaviour {
 			velocity = velocity.normalized * topSpeed;
 
 		velocity.y = 0;
+	}
+
+	internal void OnHitByPlayer ( float value )
+	{
+		Debug.Log ( "Enemy " + name + " hitted by " +  value );
+		life -= value;
+		updateEnemyState ();
+	}
+
+	internal void updateEnemyState()
+	{
+		if (life <= 0) 
+		{
+			this.gameObject.DestroySelf();
+		}
 	}
 }
