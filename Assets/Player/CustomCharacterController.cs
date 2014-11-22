@@ -13,7 +13,9 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	internal GameObject reineMere;
 
 	public Vector3 cameraOffset = Vector3.zero;
+	public Vector3 lblEnergyOffset = Vector3.zero;
 	public GameObject weapon;
+	public GameObject lblPlayerEnergy;
 
 	public float attackDistance = 1;
 	public float attackRadius = 1;
@@ -28,8 +30,11 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	void Start ()
 	{
 		cameraOffset = gameObject.transform.position - Camera.main.transform.position;
+		lblEnergyOffset = gameObject.transform.position - lblPlayerEnergy.transform.position;
+
 		reineMere = Traction.Instance.gameObject;
 		this.weapon.SetActive (false);
+		hideLblEnergy ();
 	}
 	
 	void Update()
@@ -71,8 +76,14 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		//Move the camera according the player position
 		float cameraPosX = gameObject.transform.position.x - cameraOffset.x;
 		float cameraPosZ = gameObject.transform.position.z - cameraOffset.z;
+
+		//Move the lblPlayerEnergy according the player position
+		float lblEnergyPosX = gameObject.transform.position.x - lblEnergyOffset.x;
+		float lblEnergyPosZ = gameObject.transform.position.z - lblEnergyOffset.z;
 		
 		Camera.main.transform.position = new Vector3(cameraPosX, Camera.main.transform.position.y ,cameraPosZ);
+
+		lblPlayerEnergy.transform.position = new Vector3 (lblEnergyPosX, lblPlayerEnergy.transform.position.y, lblEnergyPosZ);
 		
 		gameObject.transform.LookAt( gameObject.transform.position + velocity, Vector3.up);
 
@@ -81,10 +92,12 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 						Traction trac = reineMere.GetComponent<Traction> ();
 						trac.isPushed = true;
 						if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.Joystick1Button0)) {
-
+				showLblEnergy ();
+				updateLblEnergy (Mathf.Floor(energie).ToString());
 				}
 			else{
 				trac.isPushed = false;
+				hideLblEnergy();
 			}
 		}
 		if(keyAttack) {
@@ -158,5 +171,17 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 				this.energie += col.gameObject.GetComponent<ValueBonus>().consumeEnergy();
 			}
 		}
+	}
+		
+	public void showLblEnergy(){
+		this.lblPlayerEnergy.renderer.enabled = true;
+	}
+	
+	public void hideLblEnergy(){
+		this.lblPlayerEnergy.renderer.enabled = false;
+	}
+
+	public void updateLblEnergy(string value) {
+		this.lblPlayerEnergy.GetComponent<TextMesh>().text = value;
 	}
 }
