@@ -54,13 +54,32 @@ public class CustomCharacterController : MonoBehaviour {
 		Camera.main.transform.position = new Vector3(cameraPosX, Camera.main.transform.position.y ,cameraPosZ);
 		
 		gameObject.transform.LookAt( gameObject.transform.position + velocity, Vector3.up);
+
+		// ------------ Push the queen while pressing a button
+
+		if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.Joystick1Button0)) {
+						setPushing ();
+				} else {
+						finishPushing ();
+				}
 	}
 
+	/**
+	 * Returns whether the player is pushing or not
+	 */
+	public bool getPushing(){
+				return isPushing;
+		}
+
 	public void setPushing(){
-		isPushing = true;
+		if (!isPushing) {
+						isPushing = true;
+				}
 	}
 
 	public void finishPushing(){
-		isPushing = false;
+		if (isPushing) {
+						isPushing = false;
+				}
 	}
 }
