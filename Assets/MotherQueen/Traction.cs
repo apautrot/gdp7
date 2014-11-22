@@ -1,13 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Traction : MonoBehaviour {
+public class Traction : SceneSingleton<Traction> {
 
 	public GameObject player;
 	public float radius = 2f;
 	public bool isPushed = false;
 	public float distance;
 	public float dragDistance = 2.5F;
+	public float consumRate = 0.02f;
 	// Use this for initialization
 	void Start () {
 		isPushed = false;
@@ -25,7 +26,7 @@ public class Traction : MonoBehaviour {
 			{
 				Vector3 playerDistance = ccc.transform.position - gameObject.transform.position;
 				//If the player is not too far from Queen
-				if(playerDistance.magnitude <= dragDistance) {
+				if(playerDistance.magnitude <= dragDistance && ccc.getEnergie() > 0f) {
 					ccc.setPushing();
 
 					Vector3 objectif = player.transform.position;
@@ -36,7 +37,12 @@ public class Traction : MonoBehaviour {
 					// je suis mon objectif (le perso)
 
 						Vector3 velocity = direction * (ccc.velocity.magnitude/distance)*1.125f;
+						//apply displacement
 						this.transform.position += velocity * Time.fixedDeltaTime;
+
+						//consume player energie
+						ccc.consumeEnergie(velocity.magnitude * consumRate);
+
 
 						Vector3 pos = ccc.transform.position + velocity;
 						pos.y = gameObject.transform.position.y;

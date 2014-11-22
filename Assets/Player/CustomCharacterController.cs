@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CustomCharacterController : MonoBehaviour {
+public class CustomCharacterController : SceneSingleton<CustomCharacterController> {
 
 	public float topSpeed = 50f;
 	public float pushingTopSpeed = 2f;
@@ -10,7 +10,7 @@ public class CustomCharacterController : MonoBehaviour {
 	public Vector3 velocity = Vector3.zero;
 	public Vector3 Axis = Vector3.zero;
 	public bool isPushing = false;
-	public GameObject reineMere;
+	internal GameObject reineMere;
 
 	public Vector3 cameraOffset = Vector3.zero;
 	public GameObject weapon;
@@ -18,10 +18,13 @@ public class CustomCharacterController : MonoBehaviour {
 	private bool keyAttack = false;
 	private bool isAttacking = false;
 
+	public float energie;
+
 	// Use this for initialization
 	void Start ()
 	{
 		cameraOffset = gameObject.transform.position - Camera.main.transform.position;
+		reineMere = Traction.Instance.gameObject;
 		this.weapon.SetActive (false);
 	}
 	
@@ -71,7 +74,7 @@ public class CustomCharacterController : MonoBehaviour {
 
 		// ------------ Push the queen while pressing a button
 		if (reineMere != null) {
-						Traction trac = reineMere.GetComponents<Traction> () [0];
+						Traction trac = reineMere.GetComponent<Traction> ();
 						trac.isPushed = true;
 						if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.Joystick1Button0)) {
 
@@ -84,10 +87,7 @@ public class CustomCharacterController : MonoBehaviour {
 			attack();
 			keyAttack = false;
 		}
-				/*		setPushing ();
-				} else {
-						finishPushing ();
-				}*/
+
 	}
 
 	/**
@@ -119,4 +119,13 @@ public class CustomCharacterController : MonoBehaviour {
 		});
 	}
 
+	public void consumeEnergie(float amount){
+		this.energie -= amount;
+		if (this.energie < 0)
+			this.energie = 0;
+	}
+
+	public float getEnergie(){
+		return this.energie;
+	}
 }

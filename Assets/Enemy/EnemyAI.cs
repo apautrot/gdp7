@@ -3,8 +3,8 @@ using System.Collections;
 
 public class EnemyAI : MonoBehaviour {
 
-	public GameObject player;
-	public GameObject reineMere;
+	internal GameObject player;
+	internal GameObject reineMere;
 
 	public float distanceDetection = 12f;
 	public float distanceMinMere = 5f;
@@ -18,7 +18,8 @@ public class EnemyAI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		player = CustomCharacterController.Instance.gameObject;
+		reineMere = Traction.Instance.gameObject;
 	}
 	
 	// Update is called once per frame
