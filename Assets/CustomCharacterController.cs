@@ -40,5 +40,7 @@ public class CustomCharacterController : MonoBehaviour {
 		}
 
 		transform.position += ( velocity * Time.fixedDeltaTime );
+		
+		gameObject.transform.LookAt( gameObject.transform.position + velocity, Vector3.up);
 	}
 }
