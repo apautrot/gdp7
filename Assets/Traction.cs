@@ -38,8 +38,9 @@ public class Traction : MonoBehaviour {
 
 						Vector3 velocity = direction * (ccc.velocity.magnitude/direction.magnitude);
 						this.transform.position += velocity * Time.fixedDeltaTime;
-						
-						this.transform.LookAt( ccc.transform.position + velocity, Vector3.up);
+						Vector3 pos = ccc.transform.position + velocity;
+						pos.y = gameObject.transform.position.y;
+						this.transform.LookAt( pos, Vector3.up);
 					}
 					else{
 						ccc.finishPushing();
