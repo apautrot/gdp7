@@ -12,9 +12,13 @@ Library/expandedItems
 Library/metadata
 Library/previews
 Library/guidmapper
+Library/InspectorExpandedItems.asset
+Library/CurrentLayout.dwlt
 Temp
+obj
 *.csproj
 *.pidb
 *.sln
 UnityVS
 /gdp7.userprefs
+Library\UnityAssemblies\Version.txt
