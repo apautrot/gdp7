@@ -36,6 +36,8 @@ public class EnemyAI : MonoBehaviour
 	public GameObject ExplosionPrefab;
 	public GameObject ExplosionPrefab2;
 
+	public GameObject attack;
+
 	// Sound
 	internal Sounds soundManager;
 
@@ -46,7 +48,7 @@ public class EnemyAI : MonoBehaviour
 		reineMere = Traction.Instance.gameObject;
 		timeBeforeAttack = rand ( timeMinAttack, timeMaxAttack );
 		soundManager = Sounds.Instance;
-
+		this.attack.SetActive ( false );
 	}
 
 	// Update is called once per frame
@@ -160,6 +162,16 @@ public class EnemyAI : MonoBehaviour
 		}
 		if ( timeBeforeAttack <= 0 )
 		{
+			attack.SetActive ( true );
+			attack.transform.LookAt ( CustomCharacterController.Instance.gameObject.transform.position, Vector3.up );
+			// attack.alphaTo ( 0.25f, 0, GoEaseType.QuadIn );
+			attack.transform.scaleTo ( 0.25f, 0.2f ).setOnCompleteHandler ( c =>
+			{
+				attack.transform.SetScale ( 0.1f );
+				// attack.SetAlpha ( 1, true );
+				attack.SetActive ( false );
+				isAttacking = false;
+			} );
 
 			//do the attack
 			isAttacking = true;
@@ -176,7 +188,6 @@ public class EnemyAI : MonoBehaviour
 
 			for ( int i = 0; i < colliders.Length; i++ )
 			{
-
 				Collider collider = colliders[i];
 				if ( collider.tag == "Player" )
 				{
@@ -199,7 +210,7 @@ public class EnemyAI : MonoBehaviour
 	internal void OnHitByPlayer ( float value, float hitFactor )
 	{
 		soundManager.PlaySoundAt ( soundManager.playerAttackHit, Sounds.soundMode.Standard, this.transform.position, false, hitFactor * 2f, 0f, true );
-		Debug.Log ( "Enemy " + name + " hitted by " + value );
+		// Debug.Log ( "Enemy " + name + " hitted by " + value );
 		life -= value;
 		updateEnemyState ();
 		timeStun = stunDuration * hitFactor;
