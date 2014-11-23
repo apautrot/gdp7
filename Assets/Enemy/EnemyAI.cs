@@ -31,6 +31,9 @@ public class EnemyAI : MonoBehaviour {
 	public float attackRadius = 0.5f;
 	public float attackIntensity = 2f;
 
+	public GameObject ExplosionPrefab;
+	public GameObject ExplosionPrefab2;
+
 	// Sound
 	internal Sounds soundManager;
 
@@ -195,6 +198,10 @@ public class EnemyAI : MonoBehaviour {
 		if (life <= 0) 
 		{
 			soundManager.PlaySoundAt(soundManager.enemyExplosion,Sounds.soundMode.Standard,this.transform.position,false,2f,0f,true);
+
+			GameObjectExtensions.Instantiate ( ExplosionPrefab, transform.position, "EnemyExplosion" );
+			GameObjectExtensions.Instantiate ( ExplosionPrefab2, transform.position, "EnemyExplosion" );
+
 			this.gameObject.DestroySelf();
 		}
 	}
