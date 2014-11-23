@@ -23,10 +23,15 @@ public class EnemyAI : MonoBehaviour {
 
 	public Vector3 velocity = Vector3.zero;
 
+	public float timeBeforeAttack;
+	public float timeMinAttack = 2f;
+	public float timeMaxAttack = 5f;
+
 	// Use this for initialization
 	void Start () {
 		player = CustomCharacterController.Instance.gameObject;
 		reineMere = Traction.Instance.gameObject;
+		timeBeforeAttack = rand (timeMinAttack, timeMaxAttack);
 	}
 	
 	// Update is called once per frame
@@ -115,7 +120,17 @@ public class EnemyAI : MonoBehaviour {
 
 	void attaquePlayer ()
 	{
-		//do the attak
+		//do the attack
+		if (timeBeforeAttack > 0) { 
+			//wait
+			timeBeforeAttack -= Time.deltaTime;
+		}
+		if (timeBeforeAttack <= 0) {
+			//attaque
+
+			//new time before next attack
+			timeBeforeAttack = rand (timeMinAttack, timeMaxAttack);
+		}
 	}
 
 	internal void OnHitByPlayer ( float value, float hitFactor )
@@ -135,5 +150,8 @@ public class EnemyAI : MonoBehaviour {
 		}
 	}
 
+	internal float rand(float binf, float bsupp){
+		return Random.value * (bsupp - binf) + binf;
+	}
 
 }
