@@ -32,7 +32,7 @@ public class Sounds : SceneSingleton<Sounds>
 		foreach (AudioSource source in this.gameObject.GetComponents<AudioSource>()) {
 			if(null != source.clip && source.time >= source.clip.length) {
 				this.removeAudioSource(source);
-				Debug.Log("Clip is ended and removed" + source);
+				// Debug.Log("Clip is ended and removed" + source);
 			}
 		}
 	}
@@ -42,7 +42,7 @@ public class Sounds : SceneSingleton<Sounds>
 
 		if (asource.isPlaying) {
 			asource.Stop();
-			Debug.Log ("Sound is already playing");
+			// Debug.Log ("Sound is already playing");
 		} 
 			
 		// loops or not

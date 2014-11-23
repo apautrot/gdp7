@@ -26,7 +26,7 @@ public class Traction : SceneSingleton<Traction> {
 			{
 				Vector3 playerDistance = ccc.transform.position - gameObject.transform.position;
 				//If the player is not too far from Queen
-				if(playerDistance.magnitude <= dragDistance && ccc.getEnergie() > 0f) {
+				if(playerDistance.magnitude <= dragDistance && ccc.Energy > 0f) {
 					ccc.setPushing();
 
 					Vector3 objectif = player.transform.position;

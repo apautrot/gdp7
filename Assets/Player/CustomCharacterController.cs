@@ -15,7 +15,6 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	public Vector3 cameraOffset = Vector3.zero;
 	public Vector3 lblEnergyOffset = Vector3.zero;
 	public GameObject weapon;
-//	public GameObject lblPlayerEnergy;
 
 	public float attackDistance = 1;
 	public float attackRadius = 1;
@@ -24,11 +23,24 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	private bool keyAttack = false;
 	private bool isAttacking = false;
 
-	public float energie =20f;
+	public float MaxEnergie = 100f;
+	public float InitialEnergie = 20.0f;
+
+	private float energy;
+	internal float Energy
+	{
+		get { return energy; }
+		set
+		{
+			energy = Mathf.Max ( 0, Mathf.Min ( MaxEnergie, value ) );
+			EnergyCircle.GetComponent<EnergyCircle> ().Progress = energy / MaxEnergie;
+			DebugWindow.Instance.AddEntry ( "Player", "Energy", energy );
+		}
+	}
 
 	public float health = 100f;
 
-	public GameObject Geometry;
+	public GameObject EnergyCircle;
 
 	// Sound
 	internal Sounds soundManager;
@@ -37,12 +49,10 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	void Start ()
 	{
 		cameraOffset = gameObject.transform.position - Camera.main.transform.position;
-//		lblEnergyOffset = gameObject.transform.position - lblPlayerEnergy.transform.position;
 
 		reineMere = Traction.Instance.gameObject;
 		soundManager = Sounds.Instance;
 		this.weapon.SetActive (false);
-		hideLblEnergy ();
 	}
 	
 	void Update()
@@ -85,31 +95,27 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		float cameraPosX = gameObject.transform.position.x - cameraOffset.x;
 		float cameraPosZ = gameObject.transform.position.z - cameraOffset.z;
 
-		//Move the lblPlayerEnergy according the player position
-		float lblEnergyPosX = gameObject.transform.position.x - lblEnergyOffset.x;
-		float lblEnergyPosZ = gameObject.transform.position.z - lblEnergyOffset.z;
-		
 		Camera.main.transform.position = new Vector3(cameraPosX, Camera.main.transform.position.y ,cameraPosZ);
-
-//		lblPlayerEnergy.transform.position = new Vector3 (lblEnergyPosX, lblPlayerEnergy.transform.position.y, lblEnergyPosZ);
 		
 		gameObject.transform.LookAt( gameObject.transform.position + velocity, Vector3.up);
 
 		// ------------ Push the queen while pressing a button
-		if (reineMere != null) {
-						Traction trac = reineMere.GetComponent<Traction> ();
-						trac.isPushed = true;
-						if (Input.GetKey (KeyCode.Space) || Input.GetKey (KeyCode.Joystick1Button0)) {
-				showLblEnergy ();
-				updateLblEnergy (Mathf.Floor(energie).ToString());
-				}
-			else{
+		if ( reineMere != null )
+		{
+			Traction trac = reineMere.GetComponent<Traction> ();
+			trac.isPushed = true;
+			if ( Input.GetKey ( KeyCode.Space ) || Input.GetKey ( KeyCode.Joystick1Button0 ) )
+			{
+				// updateLblEnergy ( energie );
+			}
+			else
+			{
 				trac.isPushed = false;
-				hideLblEnergy();
 			}
 		}
-		if(keyAttack) {
-			attack();
+		if ( keyAttack )
+		{
+			attack ();
 			keyAttack = false;
 		}
 	}
@@ -166,34 +172,16 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		return health > 0;
 	}
 	
-	public void consumeEnergie(float amount){
-		this.energie -= amount;
-		if (this.energie < 0)
-			this.energie = 0;
-	}
-
-	public float getEnergie(){
-		return this.energie;
+	public void consumeEnergie(float amount)
+	{
+		Energy -= amount;
 	}
 
 	private void OnTriggerEnter(Collider col){
 		//Debug.Log("collide with : " + col.name);
-		if (col.tag == "Energy") {
-			if(energie < 100f){
-				this.energie += col.gameObject.GetComponent<ValueBonus>().consumeEnergy();
-			}
+		if (col.tag == "Energy")
+		{
+			Energy += col.gameObject.GetComponent<ValueBonus> ().consumeEnergy ();
 		}
-	}
-		
-	public void showLblEnergy(){
-//		this.lblPlayerEnergy.renderer.enabled = true;
-	}
-	
-	public void hideLblEnergy(){
-//		this.lblPlayerEnergy.renderer.enabled = false;
-	}
-
-	public void updateLblEnergy(string value) {
-//		this.lblPlayerEnergy.GetComponent<TextMesh>().text = value;
 	}
 }
