@@ -15,7 +15,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	public Vector3 cameraOffset = Vector3.zero;
 	public Vector3 lblEnergyOffset = Vector3.zero;
 	public GameObject weapon;
-	public GameObject lblPlayerEnergy;
+//	public GameObject lblPlayerEnergy;
 
 	public float attackDistance = 1;
 	public float attackRadius = 1;
@@ -26,6 +26,8 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 
 	public float energie;
 
+	public GameObject Geometry;
+
 	// Sound
 	internal Sounds soundManager;
 	internal AudioSource source;
@@ -34,7 +36,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	void Start ()
 	{
 		cameraOffset = gameObject.transform.position - Camera.main.transform.position;
-		lblEnergyOffset = gameObject.transform.position - lblPlayerEnergy.transform.position;
+//		lblEnergyOffset = gameObject.transform.position - lblPlayerEnergy.transform.position;
 
 		reineMere = Traction.Instance.gameObject;
 		soundManager = Sounds.Instance;
@@ -89,7 +91,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		
 		Camera.main.transform.position = new Vector3(cameraPosX, Camera.main.transform.position.y ,cameraPosZ);
 
-		lblPlayerEnergy.transform.position = new Vector3 (lblEnergyPosX, lblPlayerEnergy.transform.position.y, lblEnergyPosZ);
+//		lblPlayerEnergy.transform.position = new Vector3 (lblEnergyPosX, lblPlayerEnergy.transform.position.y, lblEnergyPosZ);
 		
 		gameObject.transform.LookAt( gameObject.transform.position + velocity, Vector3.up);
 
@@ -110,7 +112,6 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 			attack();
 			keyAttack = false;
 		}
-
 	}
 
 	/**
@@ -182,14 +183,14 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	}
 		
 	public void showLblEnergy(){
-		this.lblPlayerEnergy.renderer.enabled = true;
+//		this.lblPlayerEnergy.renderer.enabled = true;
 	}
 	
 	public void hideLblEnergy(){
-		this.lblPlayerEnergy.renderer.enabled = false;
+//		this.lblPlayerEnergy.renderer.enabled = false;
 	}
 
 	public void updateLblEnergy(string value) {
-		this.lblPlayerEnergy.GetComponent<TextMesh>().text = value;
+//		this.lblPlayerEnergy.GetComponent<TextMesh>().text = value;
 	}
 }
