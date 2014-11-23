@@ -22,3 +22,6 @@ obj
 UnityVS
 /gdp7.userprefs
 Library\UnityAssemblies\Version.txt
+Library/UnityAssemblies/UnityEditor.xml
+Library/UnityAssemblies/UnityEngine.xml
+Library/UnityAssemblies/version.txt
