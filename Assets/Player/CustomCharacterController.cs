@@ -186,7 +186,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 
 	public void OnHitByEnemie (float value, float hitFactor)
 	{
-		soundManager.PlaySoundAt(soundManager.enemyAttackHit,Sounds.soundMode.Standard,this.transform.position,false,hitFactor*2.5f,0f,true);
+		soundManager.PlaySoundAt(soundManager.enemyAttackHit,Sounds.soundMode.Standard,this.transform.position,false,hitFactor*0.6f,0f,true);
 		consumeEnergie(value);
 		updatePlayerState ();
 	}

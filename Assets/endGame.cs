@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class endGame : MonoBehaviour {
@@ -10,12 +10,13 @@ public class endGame : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 	}
 
 	public void OnTriggerEnter(Collider collider) {
-		if(collider.gameObject.tag == "Player") {
-			Application.LoadLevel("End Game");
+		if (collider.gameObject.tag == "Player") {
+			if(Traction.Instance.isPushed) {
+				Application.LoadLevel("End Game");
+			}
 		}
 	}
 }
