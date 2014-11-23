@@ -58,10 +58,11 @@ public class Traction : SceneSingleton<Traction> {
 				} else {
 					// The player is too far from the queen
 					ccc.finishPushing();
-					playSoundUnLock();
+					//playSoundUnLock();
 				}
 			}else{
 				ccc.finishPushing();
+					playSoundUnLock();
 			}
 		}
 	}
