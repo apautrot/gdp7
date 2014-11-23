@@ -36,6 +36,8 @@ public class EnemyAI : MonoBehaviour
 	public GameObject ExplosionPrefab;
 	public GameObject ExplosionPrefab2;
 
+	public GameObject attack;
+
 	// Sound
 	internal Sounds soundManager;
 
@@ -46,6 +48,7 @@ public class EnemyAI : MonoBehaviour
 		reineMere = Traction.Instance.gameObject;
 		timeBeforeAttack = rand ( timeMinAttack, timeMaxAttack );
 		soundManager = Sounds.Instance;
+		this.attack.SetActive ( false );
 
 	}
 
@@ -160,7 +163,16 @@ public class EnemyAI : MonoBehaviour
 		}
 		if ( timeBeforeAttack <= 0 )
 		{
-
+			attack.SetActive ( true );
+			attack.transform.LookAt ( CustomCharacterController.Instance.gameObject.transform.position, Vector3.up );
+			// attack.alphaTo ( 0.25f, 0, GoEaseType.QuadIn );
+				attack.transform.scaleTo ( 0.25f, 0.2f ).setOnCompleteHandler ( c =>
+				                                                              			{
+					attack.transform.SetScale ( 0.1f );
+					// attack.SetAlpha ( 1, true );
+						attack.SetActive ( false );
+					isAttacking = false;
+					} );
 			//do the attack
 			isAttacking = true;
 
