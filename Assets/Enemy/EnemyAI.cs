@@ -26,6 +26,10 @@ public class EnemyAI : MonoBehaviour {
 	public float timeBeforeAttack;
 	public float timeMinAttack = 2f;
 	public float timeMaxAttack = 5f;
+	public bool isAttacking = false;
+	public float attackDistance = 1f;
+	public float attackRadius = 0.5f;
+	public float attackIntensity = 2f;
 
 	// Sound
 	internal Sounds soundManager;
@@ -92,13 +96,21 @@ public class EnemyAI : MonoBehaviour {
 		updateVelocity(positionCible);
 
 		transform.position += ( velocity * Time.deltaTime );
-	}
 
+		Vector3 pos = positionCible;
+		pos.y = gameObject.transform.position.y;
+		this.transform.LookAt( pos, Vector3.up);
+	}
+	
 	private void goAwayFrom (Vector3 positionCible)
 	{
 
 		updateVelocity(positionCible);
 		transform.position -= ( velocity * Time.deltaTime );
+
+		Vector3 pos = positionCible;
+		pos.y = gameObject.transform.position.y;
+		this.transform.LookAt( pos, Vector3.up);
 	}
 
 	private void updateVelocity(Vector3 positionCible){
@@ -131,7 +143,28 @@ public class EnemyAI : MonoBehaviour {
 			timeBeforeAttack -= Time.deltaTime;
 		}
 		if (timeBeforeAttack <= 0) {
-			//attaque
+			//do the attack
+			isAttacking = true;
+
+				
+				Vector3 attackPosition = new Vector3 ( 0, 0, attackDistance );
+				Vector3 absolutedAttackPosition = transform.TransformPoint ( attackPosition );
+				Collider[] colliders = Physics.OverlapSphere ( absolutedAttackPosition, attackRadius );
+				// Debug.DrawLine (absolutedAttackPosition, transform.position);
+				
+				foreach ( Collider collider in colliders )
+				{
+					if ( collider.tag == "Player" )
+					{
+						Vector3 collider2DPosition = collider.transform.position; collider2DPosition.y = 0;
+						Vector3 attack2DPosition = absolutedAttackPosition; attack2DPosition.y = 0;
+						float distance = ( collider2DPosition - attack2DPosition ).magnitude;
+						float maxDistance = attackRadius + ( collider as CapsuleCollider ).radius;
+						float hitFactor = 1 - ( distance / maxDistance );
+						collider.gameObject.GetComponent<CustomCharacterController>().OnHitByEnemie ( hitFactor * attackIntensity, hitFactor );
+					}
+				}
+			isAttacking = false;
 
 			//new time before next attack
 			timeBeforeAttack = rand (timeMinAttack, timeMaxAttack);
