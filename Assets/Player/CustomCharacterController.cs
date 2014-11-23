@@ -207,8 +207,10 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		//Debug.Log("collide with : " + col.name);
 		if (col.tag == "Energy")
 		{
-			if(energy  < MaxEnergie)
+			if(energy  < MaxEnergie) {
 				Energy += col.gameObject.GetComponent<ValueBonus> ().consumeEnergy ();
+				soundManager.PlaySound(soundManager.bonusGrabbed, Sounds.soundMode.Standard);
+			}
 		}
 	}
 
