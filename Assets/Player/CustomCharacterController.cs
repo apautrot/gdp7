@@ -135,7 +135,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	
 	public void attack(){
 		isAttacking = true;
-		soundManager.PlaySound (soundManager.playerAttack, Sounds.soundMode.Standard);
+		Sounds.Instance.PlaySound (soundManager.playerAttack, Sounds.soundMode.Standard);
 		this.weapon.SetActive (true);
 		this.weapon.transform.localEularAnglesTo ( 0.5f, new Vector3 ( 0, 180, 0 ) ).setOnCompleteHandler ( c => {
 			this.weapon.SetActive ( false );

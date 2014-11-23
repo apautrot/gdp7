@@ -27,11 +27,16 @@ public class EnemyAI : MonoBehaviour {
 	public float timeMinAttack = 2f;
 	public float timeMaxAttack = 5f;
 
+	// Sound
+	internal Sounds soundManager;
+
 	// Use this for initialization
 	void Start () {
 		player = CustomCharacterController.Instance.gameObject;
 		reineMere = Traction.Instance.gameObject;
 		timeBeforeAttack = rand (timeMinAttack, timeMaxAttack);
+		soundManager = Sounds.Instance;
+
 	}
 	
 	// Update is called once per frame
@@ -135,17 +140,21 @@ public class EnemyAI : MonoBehaviour {
 
 	internal void OnHitByPlayer ( float value, float hitFactor )
 	{
+		soundManager.PlaySoundAt(soundManager.playerAttackHit,Sounds.soundMode.Standard,this.transform.position,false,hitFactor*2f,0f,true);
 		Debug.Log ( "Enemy " + name + " hitted by " +  value );
 		life -= value;
 		updateEnemyState ();
 		timeStun = stunDuration * hitFactor;
 		timeAvoid = avoidDuration * hitFactor;
+
+
 	}
 
 	internal void updateEnemyState()
 	{
 		if (life <= 0) 
 		{
+			soundManager.PlaySoundAt(soundManager.enemyExplosion,Sounds.soundMode.Standard,this.transform.position,false,2f,0f,true);
 			this.gameObject.DestroySelf();
 		}
 	}
