@@ -30,14 +30,6 @@ public class EnergyCircle : SceneSingleton<EnergyCircle>
 				front.renderer.material.SetFloat ( "_CutOff", 1 - value );
 
 			transform.localScale = baseScale * ( 1 + ( 0.5f * progress ) );
-
-			if ( progress == 1 )
-			{
-				if ( onAction != null )
-					onAction ();
-
-				FadeOut ();
-			}
 		}
 	}
 

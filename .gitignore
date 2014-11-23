@@ -14,6 +14,7 @@ Library/previews
 Library/guidmapper
 Library/InspectorExpandedItems.asset
 Library/CurrentLayout.dwlt
+Library/ShaderCache/*
 Temp
 obj
 *.csproj
@@ -21,7 +22,4 @@ obj
 *.sln
 UnityVS
 /gdp7.userprefs
-Library\UnityAssemblies\Version.txt
-Library/UnityAssemblies/UnityEditor.xml
-Library/UnityAssemblies/UnityEngine.xml
-Library/UnityAssemblies/version.txt
+Library/UnityAssemblies/*
