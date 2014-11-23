@@ -28,7 +28,7 @@ public class Sounds : SceneSingleton<Sounds>
 	};
 	
 	public void Start() {
-		this.PlaySound (gameTheme, soundMode.Standard, true, 2f);
+		this.PlaySound (gameTheme, soundMode.Standard, true, 1f);
 	}
 	
 	public void FixedUpdate() {
