@@ -15,6 +15,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	public Vector3 cameraOffset = Vector3.zero;
 	public Vector3 lblEnergyOffset = Vector3.zero;
 	public GameObject weapon;
+	public GameObject playerSpawn;
 
 	public float attackDistance = 1;
 	public float attackRadius = 1;
@@ -43,6 +44,8 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 
 	// Sound
 	internal Sounds soundManager;
+
+	public GameObject Geometry;
 
 	// Use this for initialization
 	void Start ()
@@ -190,6 +193,9 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	public void consumeEnergie(float amount)
 	{
 		Energy -= amount;
+		if (Energy <= 0) {
+			this.playerDie();
+		}
 	}
 
 	private void OnTriggerEnter(Collider col){
@@ -198,5 +204,14 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		{
 			Energy += col.gameObject.GetComponent<ValueBonus> ().consumeEnergy ();
 		}
+	}
+
+	public void playerDie() {
+		soundManager.PlaySound (soundManager.playerExplosion, Sounds.soundMode.Standard);
+		this.Geometry.SetActive (false);
+		gameObject.transform.positionTo (0.8f, this.playerSpawn.transform.position, false).setOnCompleteHandler (c => {
+			this.Geometry.SetActive (true);
+		});
+		this.energy = 100f;
 	}
 }
