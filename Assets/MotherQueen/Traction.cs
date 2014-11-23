@@ -9,12 +9,13 @@ public class Traction : SceneSingleton<Traction> {
 	public float distance;
 	public float dragDistance = 2.5F;
 	public float consumRate = 0.02f;
+	internal bool soundLockPlayed = false;
+	internal bool soundUnLockPlayed = false;
 	// Use this for initialization
 	void Start () {
 		player = CustomCharacterController.Instance.gameObject;
 
 		isPushed = false;
-
 	
 	}
 
@@ -30,6 +31,8 @@ public class Traction : SceneSingleton<Traction> {
 				Vector3 playerDistance = ccc.transform.position - gameObject.transform.position;
 				//If the player is not too far from Queen
 				if(playerDistance.magnitude <= dragDistance && ccc.Energy > 0f) {
+					playSoundLock();
+
 					ccc.setPushing();
 
 					Vector3 objectif = player.transform.position;
@@ -55,11 +58,27 @@ public class Traction : SceneSingleton<Traction> {
 				} else {
 					// The player is too far from the queen
 					ccc.finishPushing();
+					playSoundUnLock();
 				}
 			}else{
 				ccc.finishPushing();
 			}
 		}
 	}
+
+	void playSoundLock() {
+		if(!soundLockPlayed){
+			Sounds.Instance.PlaySound(Sounds.Instance.motherActivation, Sounds.soundMode.Standard, false);
+			soundLockPlayed = true;
+			soundUnLockPlayed = false;
+		}
+	}
 	
+	void playSoundUnLock() {
+		if(!soundUnLockPlayed){
+			Sounds.Instance.PlaySound(Sounds.Instance.motherDesactivation, Sounds.soundMode.Standard, false);
+			soundUnLockPlayed = true;
+			soundLockPlayed = false;
+		}
+	}
 }

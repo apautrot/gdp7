@@ -103,6 +103,11 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		
 		gameObject.transform.LookAt( gameObject.transform.position + velocity, Vector3.up);
 
+		if (Input.GetAxis ("Horizontal") != 0 || Input.GetAxis ("Vertical") != 0) {
+				} else {
+			soundManager.PlaySound(soundManager.playerMove, Sounds.soundMode.Standard, true);
+				}
+
 		// ------------ Push the queen while pressing a button
 		if ( reineMere != null )
 		{
