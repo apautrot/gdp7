@@ -29,13 +29,20 @@ public class ValueBonus : MonoBehaviour {
 			}
 		}
 
+		updateRender ();
+
+	}
+
+	private void updateRender(){
 		if (glowLight != null) {
 			Light l = glowLight.GetComponent<Light>();
 			l.intensity = value /2f;
 		}
-
+		//too close, if no light(== no value) => no mesh render
+		this.gameObject.GetComponent<MeshRenderer>().enabled = (value != 0);
+		//no render => no colisions
+		this.gameObject.GetComponent<BoxCollider> ().enabled = (value != 0);
 	}
-
 
 	public float consumeEnergy ()
 	{

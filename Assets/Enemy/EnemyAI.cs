@@ -51,21 +51,26 @@ public class EnemyAI : MonoBehaviour {
 						timeAvoid = 0;
 				}
 				else{ //just idle
-				timeStun -= Time.deltaTime;
-				if(timeStun < 0)
-					timeStun = 0;
+					timeStun -= Time.deltaTime;
+					if(timeStun < 0)
+						timeStun = 0;
 				}
 			}
 			else{
-				//attaque le joueur
+
 				if(distancePlayer < distanceDetection && distancePlayer > distanceMinPlayer){
+					//se deplace vers le joueur
 					goCloserTo(positionPlayer);
 				
 				}
-			}
-			if(distanceReineMere < distanceMinMere){
-				goAwayFrom(positionReineMere);
-
+				if(distancePlayer <= distanceMinPlayer){
+					//attaque le joueur
+					attaquePlayer();
+				}
+			
+				if(distanceReineMere < distanceMinMere){
+					goAwayFrom(positionReineMere);
+				}
 			}
 		}
 	
@@ -106,6 +111,11 @@ public class EnemyAI : MonoBehaviour {
 			velocity = velocity.normalized * topSpeed;
 
 		velocity.y = 0;
+	}
+
+	void attaquePlayer ()
+	{
+		//do the attak
 	}
 
 	internal void OnHitByPlayer ( float value, float hitFactor )
