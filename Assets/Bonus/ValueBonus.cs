@@ -9,11 +9,14 @@ public class ValueBonus : MonoBehaviour {
 	public float distanceMin = 10f;
 	public float value;
 
+	private float initialScale;
+
 	public GameObject glowLight;
 
 	// Use this for initialization
 	void Start () {
 		reineMere = Traction.Instance.gameObject;
+		initialScale = transform.lossyScale.x;
 	}
 	
 	// Update is called once per frame
@@ -38,10 +41,13 @@ public class ValueBonus : MonoBehaviour {
 			Light l = glowLight.GetComponent<Light>();
 			l.intensity = value /2f;
 		}
+		transform.SetScale ( Mathf.Min ( initialScale, initialScale * value ) );
 		//too close, if no light(== no value) => no mesh render
-		this.gameObject.GetComponent<MeshRenderer>().enabled = (value != 0);
+		// this.gameObject.GetComponent<MeshRenderer>().enabled = (value != 0);
 		//no render => no colisions
-		this.gameObject.GetComponent<BoxCollider> ().enabled = (value != 0);
+		// this.gameObject.GetComponent<BoxCollider> ().enabled = (value != 0);
+		// this.gameObject.GetComponent<ParticleSystem> ().enabled = (value != 0);
+		// 
 	}
 
 	public float consumeEnergy ()
