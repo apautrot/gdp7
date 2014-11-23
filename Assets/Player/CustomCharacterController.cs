@@ -24,7 +24,9 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	private bool keyAttack = false;
 	private bool isAttacking = false;
 
-	public float energie;
+	public float energie =20f;
+
+	public float health = 100f;
 
 	public GameObject Geometry;
 
@@ -163,6 +165,10 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		}
 	}
 
+	public bool isAlive(){
+		return health > 0;
+	}
+	
 	public void consumeEnergie(float amount){
 		this.energie -= amount;
 		if (this.energie < 0)
