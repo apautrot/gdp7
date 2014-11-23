@@ -78,6 +78,7 @@ public class EnemyAI : MonoBehaviour {
 				
 				}
 				if(distancePlayer <= distanceMinPlayer){
+					// Debug.Log ( "J'attaque le joueur " + Time.frameCount );
 					//attaque le joueur
 					attaquePlayer();
 				}
@@ -96,10 +97,10 @@ public class EnemyAI : MonoBehaviour {
 		updateVelocity(positionCible);
 
 		transform.position += ( velocity * Time.deltaTime );
-
+		/*
 		Vector3 pos = positionCible;
 		pos.y = gameObject.transform.position.y;
-		this.transform.LookAt( pos, Vector3.up);
+		this.transform.LookAt( pos, Vector3.up);*/
 	}
 	
 	private void goAwayFrom (Vector3 positionCible)
@@ -107,10 +108,10 @@ public class EnemyAI : MonoBehaviour {
 
 		updateVelocity(positionCible);
 		transform.position -= ( velocity * Time.deltaTime );
-
+		/*
 		Vector3 pos = positionCible;
 		pos.y = gameObject.transform.position.y;
-		this.transform.LookAt( pos, Vector3.up);
+		this.transform.LookAt( pos, Vector3.up);*/
 	}
 
 	private void updateVelocity(Vector3 positionCible){
@@ -143,17 +144,22 @@ public class EnemyAI : MonoBehaviour {
 			timeBeforeAttack -= Time.deltaTime;
 		}
 		if (timeBeforeAttack <= 0) {
+
 			//do the attack
 			isAttacking = true;
 
-				
-				Vector3 attackPosition = new Vector3 ( 0, 0, attackDistance );
-				Vector3 absolutedAttackPosition = transform.TransformPoint ( attackPosition );
-				Collider[] colliders = Physics.OverlapSphere ( absolutedAttackPosition, attackRadius );
-				// Debug.DrawLine (absolutedAttackPosition, transform.position);
-				
-				foreach ( Collider collider in colliders )
-				{
+			Vector3 directionPlayer = (player.transform.position - this.transform.position);
+			directionPlayer.y = 0;
+			directionPlayer.Normalize();
+			directionPlayer = directionPlayer.normalized;
+
+			Vector3 attackPosition = new Vector3 ( attackDistance*directionPlayer.x, 0, attackDistance *directionPlayer.z );
+			Vector3 absolutedAttackPosition = transform.TransformPoint ( attackPosition );
+			Collider[] colliders = Physics.OverlapSphere ( absolutedAttackPosition, attackRadius );
+			// Debug.DrawLine (absolutedAttackPosition, transform.position);
+
+			for(int i = 0; i < colliders.Length ;i++){
+				Collider collider = colliders[i];
 					if ( collider.tag == "Player" )
 					{
 						Vector3 collider2DPosition = collider.transform.position; collider2DPosition.y = 0;
@@ -162,6 +168,7 @@ public class EnemyAI : MonoBehaviour {
 						float maxDistance = attackRadius + ( collider as CapsuleCollider ).radius;
 						float hitFactor = 1 - ( distance / maxDistance );
 						collider.gameObject.GetComponent<CustomCharacterController>().OnHitByEnemie ( hitFactor * attackIntensity, hitFactor );
+					break;
 					}
 				}
 			isAttacking = false;
