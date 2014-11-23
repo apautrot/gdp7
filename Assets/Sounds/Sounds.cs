@@ -28,7 +28,7 @@ public class Sounds : SceneSingleton<Sounds>
 	};
 	
 	public void Start() {
-		this.PlaySound (gameTheme, soundMode.Standard, true);
+		this.PlaySound (gameTheme, soundMode.Standard, true, 1f);
 	}
 	
 	public void FixedUpdate() {
@@ -36,7 +36,7 @@ public class Sounds : SceneSingleton<Sounds>
 		foreach (AudioSource source in this.gameObject.GetComponents<AudioSource>()) {
 			if(null != source.clip && source.time >= source.clip.length) {
 				this.removeAudioSource(source);
-				Debug.Log("Clip is ended and removed" + source);
+				// Debug.Log("Clip is ended and removed" + source);
 			}
 		}
 	}
@@ -50,7 +50,7 @@ public class Sounds : SceneSingleton<Sounds>
 			aSource = getAudioSource (clip);
 			if (aSource.isPlaying) {
 				aSource.Stop ();
-				Debug.Log ("Sound is already playing");
+				// Debug.Log ("Sound is already playing");
 			} 
 		}
 		
