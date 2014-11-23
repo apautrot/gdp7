@@ -3,13 +3,13 @@ guid: 0d3c6cc138b1d1943847c0f9f67ba5f8
 ModelImporter:
   serializedVersion: 16
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: pCube2
-    400000: //RootNode
-    400002: pCube2
-    2300000: pCube2
-    3300000: pCube2
-    4300000: pCube2
+    100000: MotherQueen_Glow_02
+    100002: //RootNode
+    400000: MotherQueen_Glow_02
+    400002: //RootNode
+    2300000: MotherQueen_Glow_02
+    3300000: MotherQueen_Glow_02
+    4300000: MotherQueen_Glow_02
     9500000: //RootNode
   materials:
     importMaterials: 1
