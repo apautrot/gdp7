@@ -173,13 +173,13 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	}
 
 	public bool isAlive(){
-		return health > 0;
+		return energy > 0;
 	}
 
 	public void OnHitByEnemie (float value, float hitFactor)
 	{
 		soundManager.PlaySoundAt(soundManager.enemyAttackHit,Sounds.soundMode.Standard,this.transform.position,false,hitFactor*2.5f,0f,true);
-		health -= value;
+		consumeEnergie(value);
 		updatePlayerState ();
 	}
 
