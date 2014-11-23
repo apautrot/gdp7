@@ -173,13 +173,13 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	}
 
 	public bool isAlive(){
-		return health > 0;
+		return energy > 0;
 	}
 
 	public void OnHitByEnemie (float value, float hitFactor)
 	{
 		soundManager.PlaySoundAt(soundManager.enemyAttackHit,Sounds.soundMode.Standard,this.transform.position,false,hitFactor*2.5f,0f,true);
-		health -= value;
+		consumeEnergie(value);
 		updatePlayerState ();
 	}
 
@@ -202,7 +202,8 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		//Debug.Log("collide with : " + col.name);
 		if (col.tag == "Energy")
 		{
-			Energy += col.gameObject.GetComponent<ValueBonus> ().consumeEnergy ();
+			if(energy  < MaxEnergie)
+				Energy += col.gameObject.GetComponent<ValueBonus> ().consumeEnergy ();
 		}
 	}
 

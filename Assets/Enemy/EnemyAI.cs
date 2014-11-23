@@ -162,6 +162,7 @@ public class EnemyAI : MonoBehaviour {
 			// Debug.DrawLine (absolutedAttackPosition, transform.position);
 
 			for(int i = 0; i < colliders.Length ;i++){
+
 				Collider collider = colliders[i];
 					if ( collider.tag == "Player" )
 					{
@@ -183,7 +184,7 @@ public class EnemyAI : MonoBehaviour {
 
 	internal void OnHitByPlayer ( float value, float hitFactor )
 	{
-		soundManager.PlaySoundAt(soundManager.playerAttackHit,Sounds.soundMode.Standard,this.transform.position,false,hitFactor*2f,0f,true);
+		soundManager.PlaySoundAt(soundManager.playerAttackHit,Sounds.soundMode.Standard,this.transform.position,false,hitFactor,0f,true);
 		Debug.Log ( "Enemy " + name + " hitted by " +  value );
 		life -= value;
 		updateEnemyState ();
@@ -197,11 +198,15 @@ public class EnemyAI : MonoBehaviour {
 	{
 		if (life <= 0) 
 		{
+<<<<<<< .merge_file_a01504
 			soundManager.PlaySoundAt(soundManager.enemyExplosion,Sounds.soundMode.Standard,this.transform.position,false,2f,0f,true);
 
 			GameObjectExtensions.Instantiate ( ExplosionPrefab, transform.position, "EnemyExplosion" );
 			GameObjectExtensions.Instantiate ( ExplosionPrefab2, transform.position, "EnemyExplosion" );
 
+=======
+			soundManager.PlaySoundAt(soundManager.enemyExplosion,Sounds.soundMode.Standard,this.transform.position,false,1f,0f,true);
+>>>>>>> .merge_file_a01280
 			this.gameObject.DestroySelf();
 		}
 	}
