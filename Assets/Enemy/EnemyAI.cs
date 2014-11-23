@@ -17,9 +17,10 @@ public class EnemyAI : MonoBehaviour {
 	public float life = 10.0f;
 
 	public float stunDuration = 10f;
-	public float avoidDuration = 5f;
-	public float timeStun;
-	public float timeAvoid;
+	public float ejectDuration = 5f;
+	
+	private float timeStun;
+	private float timeEjected;
 
 	public Vector3 velocity = Vector3.zero;
 
@@ -58,20 +59,22 @@ public class EnemyAI : MonoBehaviour {
 			Vector3 directionReineMere = positionReineMere - this.transform.position;
 			float distanceReineMere = directionReineMere.magnitude;
 
-			if(timeStun > 0 || timeAvoid > 0){
-				//the enemy was hit and he is confused
-				if(timeAvoid > 0){ // == (stunDuration + avoidDuration) - avoidDuration
-					//first go away from the player
-					goAwayFrom(positionPlayer);
-					timeAvoid -= Time.deltaTime;
-					if(timeAvoid < 0)
-						timeAvoid = 0;
-				}
-				else{ //just idle
-					timeStun -= Time.deltaTime;
-					if(timeStun < 0)
-						timeStun = 0;
-				}
+			//the enemy was hit and he is confused
+			if(timeEjected > 0)
+			{ // == (stunDuration + avoidDuration) - avoidDuration
+				//first go away from the player
+//					goAwayFrom(positionPlayer);
+				timeEjected -= Time.deltaTime;
+				if(timeEjected < 0)
+					timeEjected = 0;
+			}
+			else
+			if ( timeStun > 0 )
+			{
+				//just idle
+				timeStun -= Time.deltaTime;
+				if(timeStun < 0)
+					timeStun = 0;
 			}
 			else{
 
@@ -169,7 +172,7 @@ public class EnemyAI : MonoBehaviour {
 						Vector3 collider2DPosition = collider.transform.position; collider2DPosition.y = 0;
 						Vector3 attack2DPosition = absolutedAttackPosition; attack2DPosition.y = 0;
 						float distance = ( collider2DPosition - attack2DPosition ).magnitude;
-						float maxDistance = attackRadius + ( collider as CapsuleCollider ).radius;
+						float maxDistance = attackRadius + ( collider as BoxCollider ).bounds.size.x;
 						float hitFactor = 1 - ( distance / maxDistance );
 						collider.gameObject.GetComponent<CustomCharacterController>().OnHitByEnemie ( hitFactor * attackIntensity, hitFactor );
 					break;
@@ -189,8 +192,12 @@ public class EnemyAI : MonoBehaviour {
 		life -= value;
 		updateEnemyState ();
 		timeStun = stunDuration * hitFactor;
-		timeAvoid = avoidDuration * hitFactor;
+		timeEjected = ejectDuration * hitFactor;
 
+		Vector3 hitDisplacement = transform.position - CustomCharacterController.Instance.gameObject.transform.position;
+		hitDisplacement.y = 0;
+		hitDisplacement = hitDisplacement.normalized * 5 * hitFactor;
+		transform.positionTo ( timeEjected, hitDisplacement, true ).eases ( GoEaseType.QuadOut );
 
 	}
 

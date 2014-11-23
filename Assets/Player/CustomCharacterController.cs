@@ -14,7 +14,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 
 	public Vector3 cameraOffset = Vector3.zero;
 	public Vector3 lblEnergyOffset = Vector3.zero;
-	public GameObject weapon;
+	public GameObject attack;
 	public GameObject playerSpawn;
 
 	public float attackDistance = 1;
@@ -54,7 +54,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 
 		reineMere = Traction.Instance.gameObject;
 		soundManager = Sounds.Instance;
-		this.weapon.SetActive (false);
+		this.attack.SetActive ( false );
 
 		Energy = InitialEnergie;
 	}
@@ -124,7 +124,7 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		}
 		if ( keyAttack )
 		{
-			attack ();
+			Attack ();
 			keyAttack = false;
 		}
 	}
@@ -148,15 +148,18 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		}
 	}
 	
-	public void attack(){
+	public void Attack(){
 		isAttacking = true;
 		Sounds.Instance.PlaySound (soundManager.playerAttack, Sounds.soundMode.Standard);
-		this.weapon.SetActive (true);
-		this.weapon.transform.localEularAnglesTo ( 0.5f, new Vector3 ( 0, 180, 0 ) ).setOnCompleteHandler ( c => {
-			this.weapon.SetActive ( false );
-			this.weapon.transform.localEulerAngles = Vector3.zero;
+		attack.SetActive ( true );
+		// attack.alphaTo ( 0.25f, 0, GoEaseType.QuadIn );
+		attack.transform.scaleTo ( 0.25f, 1.5f ).setOnCompleteHandler ( c =>
+		{
+			attack.transform.SetScale ( 1.0f );
+			// attack.SetAlpha ( 1, true );
+			attack.SetActive ( false );
 			isAttacking = false;
-		});
+		} );
 
 		Vector3 attackPosition = new Vector3 ( 0, 0, attackDistance );
 		Vector3 absolutedAttackPosition = transform.TransformPoint ( attackPosition );
