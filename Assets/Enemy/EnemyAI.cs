@@ -198,15 +198,11 @@ public class EnemyAI : MonoBehaviour {
 	{
 		if (life <= 0) 
 		{
-<<<<<<< .merge_file_a01504
-			soundManager.PlaySoundAt(soundManager.enemyExplosion,Sounds.soundMode.Standard,this.transform.position,false,2f,0f,true);
+			soundManager.PlaySoundAt(soundManager.enemyExplosion,Sounds.soundMode.Standard,this.transform.position,false,1f,0f,true);
 
 			GameObjectExtensions.Instantiate ( ExplosionPrefab, transform.position, "EnemyExplosion" );
 			GameObjectExtensions.Instantiate ( ExplosionPrefab2, transform.position, "EnemyExplosion" );
 
-=======
-			soundManager.PlaySoundAt(soundManager.enemyExplosion,Sounds.soundMode.Standard,this.transform.position,false,1f,0f,true);
->>>>>>> .merge_file_a01280
 			this.gameObject.DestroySelf();
 		}
 	}
