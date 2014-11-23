@@ -2,7 +2,19 @@ fileFormatVersion: 2
 guid: fb48dfbb6febe5e46a8de66d191d1de6
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerMove: {fileID: 8300000, guid: c424a5ad4256ebd4ca465b97e1a09fdd, type: 3}
+  - playerMoveStart: {instanceID: 0}
+  - playerAttack: {fileID: 8300000, guid: 49a5baa82155d214ab42a6a93c0d1947, type: 3}
+  - playerAttackHit: {instanceID: 0}
+  - playerExplosion: {instanceID: 0}
+  - enemyMove: {instanceID: 0}
+  - enemyAttackHit: {fileID: 8300000, guid: a1fd0b1f6bf17e34a9987c4c2fd81716, type: 3}
+  - enemyExplosion: {fileID: 8300000, guid: 9e5eeb21f65ceea49b9fab3dc895c680, type: 3}
+  - motherKeenMove: {instanceID: 0}
+  - motherActivation: {instanceID: 0}
+  - motherDesactivation: {instanceID: 0}
+  - bonusGrabbed: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

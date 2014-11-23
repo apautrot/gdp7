@@ -26,6 +26,10 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 
 	public float energie;
 
+	// Sound
+	internal Sounds soundManager;
+	internal AudioSource source;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -33,6 +37,8 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		lblEnergyOffset = gameObject.transform.position - lblPlayerEnergy.transform.position;
 
 		reineMere = Traction.Instance.gameObject;
+		soundManager = Sounds.Instance;
+		source = new AudioSource ();
 		this.weapon.SetActive (false);
 		hideLblEnergy ();
 	}
@@ -128,6 +134,8 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	
 	public void attack(){
 		isAttacking = true;
+		//source.audio.clip = soundManager.playerAttack;
+		//source.PlayScheduled (10f);
 		this.weapon.SetActive (true);
 		this.weapon.transform.localEularAnglesTo ( 0.5f, new Vector3 ( 0, 180, 0 ) ).setOnCompleteHandler ( c => {
 			this.weapon.SetActive ( false );

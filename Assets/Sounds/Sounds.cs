@@ -15,4 +15,5 @@ public class Sounds : SceneSingleton<Sounds>
 	public AudioClip motherActivation;
 	public AudioClip motherDesactivation;
 	public AudioClip bonusGrabbed;
+
 }
