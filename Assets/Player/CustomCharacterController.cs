@@ -33,14 +33,13 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		set
 		{
 			energy = Mathf.Max ( 0, Mathf.Min ( MaxEnergie, value ) );
-			EnergyCircle.GetComponent<EnergyCircle> ().Progress = energy / MaxEnergie;
-			DebugWindow.Instance.AddEntry ( "Player", "Energy", energy );
+			EnergyCircle.Instance.GetComponent<EnergyCircle> ().Progress = energy / MaxEnergie;
+			if ( DebugWindow.InstanceCreated )
+				DebugWindow.Instance.AddEntry ( "Player", "Energy", energy );
 		}
 	}
 
 	public float health = 100f;
-
-	public GameObject EnergyCircle;
 
 	// Sound
 	internal Sounds soundManager;
