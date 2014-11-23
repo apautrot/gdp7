@@ -52,6 +52,8 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		reineMere = Traction.Instance.gameObject;
 		soundManager = Sounds.Instance;
 		this.weapon.SetActive (false);
+
+		Energy = InitialEnergie;
 	}
 	
 	void Update()
@@ -102,10 +104,10 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 		if ( reineMere != null )
 		{
 			Traction trac = reineMere.GetComponent<Traction> ();
-			trac.isPushed = true;
+			trac.isPushed = false;
 			if ( Input.GetKey ( KeyCode.Space ) || Input.GetKey ( KeyCode.Joystick1Button0 ) )
 			{
-				// updateLblEnergy ( energie );
+				trac.isPushed = true;
 			}
 			else
 			{
@@ -123,19 +125,19 @@ public class CustomCharacterController : SceneSingleton<CustomCharacterControlle
 	 * Returns whether the player is pushing or not
 	 */
 	public bool getPushing(){
-				return isPushing;
+			return isPushing;
 		}
 
 	public void setPushing(){
 		if (!isPushing) {
-						isPushing = true;
-				}
+			isPushing = true;
+		}
 	}
 
 	public void finishPushing(){
 		if (isPushing) {
-						isPushing = false;
-				}
+			isPushing = false;
+		}
 	}
 	
 	public void attack(){

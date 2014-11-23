@@ -11,7 +11,10 @@ public class Traction : SceneSingleton<Traction> {
 	public float consumRate = 0.02f;
 	// Use this for initialization
 	void Start () {
+		player = CustomCharacterController.Instance.gameObject;
+
 		isPushed = false;
+
 	
 	}
 
@@ -22,7 +25,7 @@ public class Traction : SceneSingleton<Traction> {
 		{
 			CustomCharacterController ccc = player.GetComponents<CustomCharacterController>()[0];
 
-			if(isPushed)
+			if(this.isPushed)
 			{
 				Vector3 playerDistance = ccc.transform.position - gameObject.transform.position;
 				//If the player is not too far from Queen
@@ -57,7 +60,6 @@ public class Traction : SceneSingleton<Traction> {
 				ccc.finishPushing();
 			}
 		}
-	
 	}
 	
 }
