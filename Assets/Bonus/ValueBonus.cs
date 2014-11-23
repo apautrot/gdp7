@@ -13,6 +13,8 @@ public class ValueBonus : MonoBehaviour {
 
 	public GameObject glowLight;
 
+	internal bool isFadingOut;
+
 	// Use this for initialization
 	void Start () {
 		reineMere = Traction.Instance.gameObject;
@@ -52,8 +54,14 @@ public class ValueBonus : MonoBehaviour {
 
 	public float consumeEnergy ()
 	{
-		if (value > 0) {
-			this.gameObject.DestroySelf();
+		if ( value > 0 )
+		{
+			isFadingOut = true;
+
+			this.transform.scaleTo ( 1.0f, 0 );
+			this.transform.positionTo ( 1.0f, new Vector3 ( 0, 2.0f, 0 ), true ).setOnCompleteHandler ( c => {
+				this.gameObject.DestroySelf ();
+			} );
 		}
 		return value;
 	}
